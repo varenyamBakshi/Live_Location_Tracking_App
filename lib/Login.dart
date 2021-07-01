@@ -3,6 +3,8 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './Signup.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/gestures.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -33,20 +35,20 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  // checkAuthentification() async {
-  //   _auth.authStateChanges().listen((user) {
-  //     if (user != null) {
-  //       print(user);
-  //
-  //       Navigator.pushReplacementNamed(context, "/Login");
-  //     }
-  //   });
-  // }
+  checkAuthentication() async {
+    _auth.authStateChanges().listen((user) {
+      if (user != null) {
+        print(user);
+
+        Navigator.pushReplacementNamed(context, "/Home");
+      }
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-   // this.checkAuthentification();
+    this.checkAuthentication();
   }
 
   login() async {
@@ -56,6 +58,7 @@ class _LoginPageState extends State<LoginPage> {
       try {
          await _auth.signInWithEmailAndPassword(
             email: _email, password: _password);
+         Navigator.pushReplacementNamed(context, "/Home");
       } catch (e) {
         showError(e.toString());
         print(e);
@@ -214,7 +217,24 @@ class _LoginPageState extends State<LoginPage> {
                           ),
 
 
-                        )
+                        ),
+                        SizedBox(height: 10.0),
+                        RichText(
+                          text: TextSpan(
+                              children: [
+                              TextSpan(text: 'Sign Up',
+                              style: TextStyle(color: Colors.grey[700], fontSize: 20.0, decoration: TextDecoration.underline),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.pushReplacementNamed(context, "/Signup");
+                                  //this.checkAuthentication();
+                                }
+                              )
+                                ]
+                          ),
+
+
+                        ),
                       ]
                     )
                   )
@@ -226,6 +246,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
+
       backgroundColor: Color(0xff121212),
       )
     );

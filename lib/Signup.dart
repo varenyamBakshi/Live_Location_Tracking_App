@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -32,18 +33,18 @@ class _SignupPageState extends State<SignupPage> {
 
   }
 
-  // checkAuthentication() async {
-  //   _auth.authStateChanges().listen((user) async {
-  //     if (user != null) {
-  //       Navigator.pushReplacementNamed(context, "/");
-  //     }
-  //   });
-  // }
+  checkAuthentication() async {
+    _auth.authStateChanges().listen((user) async {
+      if (user != null) {
+        Navigator.pushReplacementNamed(context, "/Home");
+      }});
+  }
+
 
   @override
   void initState() {
     super.initState();
-    //this.checkAuthentication();
+    this.checkAuthentication();
   }
 
   signUp() async {
@@ -97,7 +98,7 @@ class _SignupPageState extends State<SignupPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
 
                   children: <Widget>[
-                    SizedBox(height: 120.0),
+                    SizedBox(height: 120),
                     Text(
                         'SIGN UP',
                         style: TextStyle(
@@ -107,7 +108,7 @@ class _SignupPageState extends State<SignupPage> {
 
                         )
                     ),
-                    SizedBox(height: 170.0),
+                    SizedBox(height: 130.0),
                     Divider(),
                     Container(
                       child: ButtonTheme(
@@ -253,9 +254,24 @@ class _SignupPageState extends State<SignupPage> {
                                 ]
                             )
                         )
-                    )
+                    ),
+                    SizedBox(height: 10.0),
+                    RichText(
+                      text: TextSpan(
+                          children: [
+                            TextSpan(text: 'Login',
+                                style: TextStyle(color: Colors.grey[700], fontSize: 20.0, decoration: TextDecoration.underline),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.pushReplacementNamed(context, "/Login");
+                                    //this.checkAuthentication();
+                                  }
+                            )
+                          ]
+                      ),
 
 
+                    ),
 
                   ]
               ),
