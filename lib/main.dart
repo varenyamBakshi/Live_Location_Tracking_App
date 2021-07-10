@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import './Signup.dart';
 import './Login.dart';
 import './Home.dart';
+import './crudScreen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -13,6 +15,7 @@ void main() async {
       '/Home': (context)=>HomePage(),
       '/Login': (context)=>LoginPage(),
       '/Signup': (context)=>SignupPage(),
+      '/Crud' : (context) => CrudScreen(),
     },
   ))
   );

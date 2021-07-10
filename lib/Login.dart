@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './Signup.dart';
+import './crudScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
 
@@ -40,7 +41,9 @@ class _LoginPageState extends State<LoginPage> {
       if (user != null) {
         print(user);
 
-        Navigator.pushReplacementNamed(context, "/Home");
+        //Navigator.pushReplacementNamed(context, "/Home");
+        Navigator.pushReplacementNamed(context, "/Crud");
+
       }
     });
   }
@@ -58,7 +61,8 @@ class _LoginPageState extends State<LoginPage> {
       try {
          await _auth.signInWithEmailAndPassword(
             email: _email, password: _password);
-         Navigator.pushReplacementNamed(context, "/Home");
+         //Navigator.pushReplacementNamed(context, "/Home");
+         Navigator.pushReplacementNamed(context, "/Crud");
       } catch (e) {
         showError(e.toString());
         print(e);
