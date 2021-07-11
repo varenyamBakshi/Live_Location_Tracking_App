@@ -41,8 +41,8 @@ class _LoginPageState extends State<LoginPage> {
       if (user != null) {
         print(user);
 
-        //Navigator.pushReplacementNamed(context, "/Home");
-        Navigator.pushReplacementNamed(context, "/Crud");
+        Navigator.pushReplacementNamed(context, "/Home");
+        //Navigator.pushReplacementNamed(context, "/Crud");
 
       }
     });
@@ -61,8 +61,8 @@ class _LoginPageState extends State<LoginPage> {
       try {
          await _auth.signInWithEmailAndPassword(
             email: _email, password: _password);
-         //Navigator.pushReplacementNamed(context, "/Home");
-         Navigator.pushReplacementNamed(context, "/Crud");
+         Navigator.pushReplacementNamed(context, "/Home");
+         //Navigator.pushReplacementNamed(context, "/Crud");
       } catch (e) {
         showError(e.toString());
         print(e);
