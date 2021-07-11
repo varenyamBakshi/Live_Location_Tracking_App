@@ -67,4 +67,8 @@ class Crud{
     });
   }
 
+  deleteUser() async
+  {
+    _auth.currentUser!.delete();
+  }
 }

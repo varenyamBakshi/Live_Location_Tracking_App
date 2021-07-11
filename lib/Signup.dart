@@ -60,6 +60,7 @@ class _SignupPageState extends State<SignupPage> {
         //adding this user information to "data" collection
         Crud newUser = new Crud();
         newUser.addUser();
+        newUser.updateData(full_name: _username);
 
         if (user != null) {
           // UserUpdateInfo updateuser = UserUpdateInfo();
