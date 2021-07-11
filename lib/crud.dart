@@ -69,6 +69,7 @@ class Crud{
 
   deleteUser() async
   {
+    deleteData();
     _auth.currentUser!.delete();
   }
 }
