@@ -67,9 +67,21 @@ class Crud{
     });
   }
 
-  deleteUser() async
-  {
+  deleteUser() async {
     deleteData();
     _auth.currentUser!.delete();
   }
+
+  UpdateUser({String? full_name, String? email }) async{
+
+    if(full_name != null){
+      _auth.currentUser!.updateDisplayName(full_name);
+    }
+    if(email != null ){
+      _auth.currentUser!.updateEmail(email);
+    }
+    updateData(full_name : full_name, email : email);
+  }
+
+
 }
