@@ -4,7 +4,9 @@ import './Signup.dart';
 import './Login.dart';
 import './Home.dart';
 import './crudScreen.dart';
+import 'GoogleLocation.dart';
 import './Profile.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -12,15 +14,16 @@ void main() async {
     // initialRoute: ,
     home: LoginPage(),
     routes: {
-      '/Home': (context)=>HomePage(),
-      '/Login': (context)=>LoginPage(),
-      '/Signup': (context)=>SignupPage(),
-      '/Crud' : (context) => CrudScreen(),
-      '/Profile': (context)=>ProfilePage(),
+      '/Home': (context) => HomePage(),
+      '/Login': (context) => LoginPage(),
+      '/Signup': (context) => SignupPage(),
+      '/Crud': (context) => CrudScreen(),
+      '/Maps': (context) => Maps(),
+      '/Profile': (context) => ProfilePage(),
     },
-  ))
-  );
-  }
+  )));
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
