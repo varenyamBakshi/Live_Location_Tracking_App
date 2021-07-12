@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
         print(user);
 
         Navigator.pushReplacementNamed(context, "/Home");
-        //Navigator.pushReplacementNamed(context, "/Crud");
+       // Navigator.pushReplacementNamed(context, "/Crud");
 
       }
     });
@@ -96,157 +96,162 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+        body: Builder(
+          builder: (context)=>SingleChildScrollView(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
 
-              children: <Widget>[
-                SizedBox(height: 120.0),
-                Text(
-                    'LOGIN',
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 48.0,
-                    color: Colors.white
+                children: <Widget>[
+                  SizedBox(height: 120.0),
+                  Text(
+                      'LOGIN',
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 48.0,
+                      color: Colors.white
 
-                  )
-                ),
-                SizedBox(height: 170.0),
-                Divider(),
-                Container(
-                  child: ButtonTheme(
-                    child: SignInButton(
-                      Buttons.Google,
-                      onPressed: () {
-                        _showButtonPressDialog(context, 'Google');
-                      },
+                    )
+                  ),
+                  SizedBox(height: 170.0),
+                  Divider(),
+                  Container(
+                    child: ButtonTheme(
+                      child: SignInButton(
+                        Buttons.Google,
+                        onPressed: () {
+                          _showButtonPressDialog(context, 'Google');
+                        },
 
+
+                      ),
+                      height: 48.0,
+                      minWidth: 300.0,
 
                     ),
-                    height: 48.0,
-                    minWidth: 300.0,
-
                   ),
-                ),
-                Container(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
-                          child: TextFormField(
-                            cursorColor: Colors.white,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ),
-                            validator: (input)
-                            {
-                              if(input!.isEmpty)
-                                return 'Enter E-mail';
-                            },
-                            decoration: InputDecoration(
-                                labelText: 'Email Id',
-                                labelStyle: TextStyle(
-                                  color: Colors.white38,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 1, color: Colors.white38),
-                                  borderRadius: BorderRadius.circular(8),
-
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 1, color: Colors.white38),
-                                  borderRadius: BorderRadius.circular(8),
-                                )
-                                ),
-                             onSaved: (input)=> _email=input!,
-
-                        )
-                        ),
-                        Container(
-                          padding: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
+                  Container(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
                             child: TextFormField(
-                                cursorColor: Colors.white,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                ),
-                                validator: (input)
-                                {
-                                  if(input!.length<6)
-                                    return 'Password must be at least 6 characters';
-                                },
-                                decoration: InputDecoration(
-                                    labelText: 'Password',
-                                    suffixIcon: GestureDetector(
-                                      onTap: (){
-                                        _togglevisibility();
-                                      },
-                                      child: Icon(
-                                          _showPassword ? Icons.visibility : Icons.visibility_off,
-                                           color: Colors.white38,
-                                           ),
+                              cursorColor: Colors.white,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                              validator: (input)
+                              {
+                                if(input!.isEmpty)
+                                  return 'Enter E-mail';
+                              },
+                              decoration: InputDecoration(
+                                  labelText: 'Email Id',
+                                  labelStyle: TextStyle(
+                                    color: Colors.white38,
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(width: 1, color: Colors.white38),
+                                    borderRadius: BorderRadius.circular(8),
+
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(width: 1, color: Colors.white38),
+                                    borderRadius: BorderRadius.circular(8),
+                                  )
+                                  ),
+                               onSaved: (input)=> _email=input!,
+
+                          )
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
+                              child: TextFormField(
+                                  cursorColor: Colors.white,
+
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
+                                  validator: (input)
+                                  {
+                                    if(input!.length<6)
+                                      return 'Password must be at least 6 characters';
+                                  },
+                                  decoration: InputDecoration(
+                                      labelText: 'Password',
+                                      focusColor:Color(0xffBB86FC),
+                                      suffixIcon: GestureDetector(
+                                        onTap: (){
+                                          _togglevisibility();
+                                        },
+                                        child: Icon(
+                                            _showPassword ? Icons.visibility : Icons.visibility_off,
+                                             color: Colors.white38,
+                                             ),
+
+                                        ),
+
+                                      labelStyle: TextStyle(
+                                        color: Colors.white38,
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 1, color: Colors.white38),
+                                        borderRadius: BorderRadius.circular(8),
 
                                       ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 1, color: Color(0xffBB86FC)),
 
-                                    labelStyle: TextStyle(
-                                      color: Colors.white38,
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(width: 1, color: Colors.white38),
-                                      borderRadius: BorderRadius.circular(8),
-
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(width: 1, color: Colors.white38),
-                                      borderRadius: BorderRadius.circular(8),
-                                    )
-                                ),
-                                obscureText: _showPassword,
-                                onSaved: (input)=> _password=input!,
-                            )
-                        ),
-                        SizedBox(height: 20.0),
-                        FlatButton(
-                          onPressed: login,
-                          color: Color(0xffBB86FC),
-                          child: Text(
-                            'Sign In',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                            )
-                          ),
-
-
-                        ),
-                        SizedBox(height: 10.0),
-                        RichText(
-                          text: TextSpan(
-                              children: [
-                              TextSpan(text: 'Sign Up',
-                              style: TextStyle(color: Colors.grey[700], fontSize: 20.0, decoration: TextDecoration.underline),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pushReplacementNamed(context, "/Signup");
-                                  //this.checkAuthentication();
-                                }
+                                        borderRadius: BorderRadius.circular(8),
+                                      )
+                                  ),
+                                  obscureText: _showPassword,
+                                  onSaved: (input)=> _password=input!,
                               )
-                                ]
                           ),
+                          SizedBox(height: 20.0),
+                          FlatButton(
+                            onPressed: login,
+                            color: Color(0xffBB86FC),
+                            child: Text(
+                              'Sign In',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                              )
+                            ),
 
 
-                        ),
-                      ]
+                          ),
+                          SizedBox(height: 10.0),
+                          RichText(
+                            text: TextSpan(
+                                children: [
+                                TextSpan(text: 'Sign Up',
+                                style: TextStyle(color: Colors.grey[700], fontSize: 20.0, decoration: TextDecoration.underline),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.pushReplacementNamed(context, "/Signup");
+                                    //this.checkAuthentication();
+                                  }
+                                )
+                                  ]
+                            ),
+
+
+                          ),
+                        ]
+                      )
                     )
                   )
-                )
 
 
 
-              ]
+                ]
+              ),
             ),
           ),
         ),
