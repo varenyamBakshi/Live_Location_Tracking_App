@@ -10,7 +10,7 @@ void main() async {
   await Firebase.initializeApp();
   runApp((MaterialApp(
     // initialRoute: ,
-    home: LoginPage(),
+    home: SignupPage(),
     routes: {
       '/Home': (context)=>HomePage(),
       '/Login': (context)=>LoginPage(),

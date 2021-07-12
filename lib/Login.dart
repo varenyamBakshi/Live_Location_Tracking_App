@@ -234,7 +234,9 @@ class _LoginPageState extends State<LoginPage> {
                                 style: TextStyle(color: Colors.grey[700], fontSize: 20.0, decoration: TextDecoration.underline),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    Navigator.pushReplacementNamed(context, "/Signup");
+                                    Navigator.push(context, new MaterialPageRoute(
+                                        builder: (context) => new SignupPage())
+                                    );
                                     //this.checkAuthentication();
                                   }
                                 )
