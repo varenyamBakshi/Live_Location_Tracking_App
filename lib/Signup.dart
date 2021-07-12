@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
+import 'package:geolocator/geolocator.dart';
 import './crudScreen.dart';
 import 'Crud.dart';
 
@@ -14,6 +15,7 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+
 
   void _showButtonPressDialog(BuildContext context, String provider) {
     // ignore: deprecated_member_use
@@ -49,7 +51,9 @@ class _SignupPageState extends State<SignupPage> {
     this.checkAuthentication();
   }
 
+
   signUp() async {
+    Position geoposition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
@@ -59,7 +63,7 @@ class _SignupPageState extends State<SignupPage> {
 
         //adding this user information to "data" collection
         Crud newUser = new Crud();
-        newUser.addUser();
+        newUser.addUser(loc: geoposition);
         newUser.updateData(full_name: _username);
 
         if (user != null) {

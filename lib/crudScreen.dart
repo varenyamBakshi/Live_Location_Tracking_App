@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'main.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -21,6 +22,7 @@ class CrudScreen extends StatefulWidget {
 class _CrudScreenState extends State<CrudScreen> {
 
   Map data = {} ;
+  var location= "";
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -36,6 +38,16 @@ class _CrudScreenState extends State<CrudScreen> {
   void initState() {
     super.initState();
     this.checkAuthentication();
+    getCurrentLocation();
+  }
+
+  //Accessing Location
+  getCurrentLocation() async{
+    Position geoposition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    setState(() {
+      location = "$geoposition";
+    });
   }
 
   Future<void> addUser () async {
@@ -43,11 +55,13 @@ class _CrudScreenState extends State<CrudScreen> {
     FirebaseAuth _auth = FirebaseAuth.instance;
     String uid = _auth.currentUser!.uid.toString();
     print(uid);
+
     collectionReference.doc(uid).set(
         {
           "full_name": _auth.currentUser!.displayName.toString(),
           "email": _auth.currentUser!.email.toString(),
           "uid": uid,
+          "location": location,
         }
     );
     print("New user added");
@@ -195,7 +209,6 @@ class _CrudScreenState extends State<CrudScreen> {
               ),
             ),
             SizedBox(height: 40.0),
-
 
 
 
