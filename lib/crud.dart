@@ -65,7 +65,7 @@ class Crud{
 
   deleteData () async {
     CollectionReference collectionReference = FirebaseFirestore.instance.collection(this.collectionName);
-    collectionReference.doc(this._auth.currentUser!.uid).delete().then((_) {
+    await collectionReference.doc(this._auth.currentUser!.uid).delete().then((_) {
       print("User deleted");
     });
   }

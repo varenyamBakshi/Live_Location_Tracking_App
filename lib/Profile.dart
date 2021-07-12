@@ -28,41 +28,62 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  static Route<Object?> _dialogBuilder(BuildContext context, Object? arguments) {
-    return DialogRoute<void>(
-      context: context,
-      builder: (BuildContext context) => {showDialog(child: new Dialog(
-      child: new Column(
-      children: <Widget>[
-      new TextField(
-      decoration: new InputDecoration(hintText: "Enter Password"),
-      controller: _c,
+  // static Route<Object?> _dialogBuilder(BuildContext context, Object? arguments) {
+  //   return DialogRoute<void>(
+  //     context: context,
+  //     builder: (BuildContext context) => {showDialog(child: new Dialog(
+  //     child: new Column(
+  //     children: <Widget>[
+  //     new TextField(
+  //     decoration: new InputDecoration(hintText: "Enter Password"),
+  //     controller: _c,
+  //
+  //     ),
+  //     new FlatButton(
+  //     child: new Text("Save"),
+  //     onPressed: (){
+  //     setState((){
+  //     this._password = _c.text;
+  //     });
+  //     Navigator.pop(context);
+  //     },
+  //     )
+  //     ],
+  //     ),
+  //
+  //    ), context: context);
+  //
+  //
+  //   String email = _auth.currentUser!.email.toString();
+  //   String password = _password;
+  //
+  //
+  //   AuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
+  //
+  //
+  //   await FirebaseAuth.instance.currentUser!.reauthenticateWithCredential(credential);},
+  //   );
+  // }
 
-      ),
-      new FlatButton(
-      child: new Text("Save"),
-      onPressed: (){
-      setState((){
-      this._password = _c.text;
-      });
-      Navigator.pop(context);
-      },
-      )
-      ],
-      ),
+  Future<void> _displayTextInputDialog(BuildContext context) async {
+    TextEditingController _textFieldController = TextEditingController();
 
-      ), context: context);
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('TextField in Dialog'),
+            content: TextField(
+              onChanged: (value) {
+                _password = _textFieldController.toString();
+              },
+              obscureText: true,
+              controller: _textFieldController,
+              decoration: InputDecoration(hintText: "Text Field in Dialog"),
+            ),
 
-
-        String email = _auth.currentUser!.email.toString();
-    String password = _password;
-
-
-    AuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
-
-
-    await FirebaseAuth.instance.currentUser!.reauthenticateWithCredential(credential);},
-    );
+          );
+        });
   }
 
 
@@ -184,16 +205,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                     FlatButton(
 
                                         onPressed: () {
-                                          Navigator.of(context).restorablePush(_dialogBuilder);
+                                          //Navigator.of(context).restorablePush(_dialogBuilder);
+                                          _displayTextInputDialog(context);
+                                          crud.deleteUser();
                                         },
 
 
-
-
-                                        crud.deleteUser();
-
-
-                      },
                                       color: Color(0xffBB86FC),
                                       child: Text(
                                           'Delete',
