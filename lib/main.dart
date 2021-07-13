@@ -6,13 +6,14 @@ import './Home.dart';
 import './crudScreen.dart';
 import 'GoogleLocation.dart';
 import './Profile.dart';
+import './groups.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp((MaterialApp(
     // initialRoute: ,
-    home: SignupPage(),
+    home: LoginPage(),
     routes: {
       '/Home': (context) => HomePage(),
       '/Login': (context) => LoginPage(),
@@ -20,6 +21,7 @@ void main() async {
       '/Crud': (context) => CrudScreen(),
       '/Maps': (context) => Maps(),
       '/Profile': (context) => ProfilePage(),
+      '/Groups': (context) => Groups(),
     },
   )));
 }

@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
       if (user != null) {
         print(user);
 
-        Navigator.pushReplacementNamed(context, "/Home");
+        Navigator.pushReplacementNamed(context, "/Groups");
         //Navigator.pushReplacementNamed(context, "/Crud");
 
       }

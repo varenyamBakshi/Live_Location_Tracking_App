@@ -33,7 +33,7 @@ class Crud {
     return;
   }
 
-  Future<Map<String, dynamic>> fetchData() async {
+  fetchData() async {
     CollectionReference collectionReference =
         FirebaseFirestore.instance.collection(this.collectionName);
 
