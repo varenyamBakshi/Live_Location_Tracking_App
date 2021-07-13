@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
       try {
         await _auth.signInWithEmailAndPassword(
             email: _email, password: _password);
-        Navigator.pushReplacementNamed(context, "/Home");
+        Navigator.pushReplacementNamed(context, "/Groups");
         //Navigator.pushReplacementNamed(context, "/Crud");
       } catch (e) {
         showError(e.toString());
