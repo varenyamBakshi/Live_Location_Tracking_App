@@ -57,7 +57,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
 
 
 
-        FirebaseFirestore.instance.collection('data').where('full_name', isGreaterThanOrEqualTo: text).get().then((snapshot) {
+        FirebaseFirestore.instance.collection('data').where('full_name', isEqualTo: text).get().then((snapshot) {
 
           setState(() {
             _isLoading = true;

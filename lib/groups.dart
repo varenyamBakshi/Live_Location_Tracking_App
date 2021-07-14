@@ -59,7 +59,17 @@ class _GroupsState extends State<Groups> {
                   child: Container(
                     width: MediaQuery.of(context).size.width / 1.2,
                     height: MediaQuery.of(context).size.height / 6,
-                    child: Text("Title: " + document['groupName']),
+                      child: Card(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListTile(
+                            title: Text(document['groupName']),
+                            subtitle: Text(document["users"].join(",  ")),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               }).toList(),

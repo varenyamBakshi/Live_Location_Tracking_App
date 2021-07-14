@@ -29,11 +29,11 @@ class Crud {
 
     print(_uid);
     //var loc = {"Latitude": lat, "Longitude": long};
-    collectionReference.doc(_uid).set({
+    await collectionReference.doc(_uid).set({
       "full_name": this._auth.currentUser!.displayName.toString(),
       "email": this._auth.currentUser!.email.toString(),
       "uid": _uid,
-      "location": loc,
+      "location": loc.toString(),
       "SearchQueries": SearchQueries,
     });
     print("New user added");
