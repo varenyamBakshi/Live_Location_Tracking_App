@@ -37,7 +37,7 @@ class _SignupPageState extends State<SignupPage> {
   checkAuthentication() async {
     _auth.authStateChanges().listen((user) async {
       if (user != null) {
-        Navigator.pushReplacementNamed(context, "/Home");
+        Navigator.pushReplacementNamed(context, "/Groups");
       }
     });
   }

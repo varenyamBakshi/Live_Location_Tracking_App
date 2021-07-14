@@ -7,6 +7,7 @@ import './crudScreen.dart';
 import 'GoogleLocation.dart';
 import './Profile.dart';
 import './groups.dart';
+import './Search.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,7 @@ void main() async {
       '/Maps': (context) => Maps(),
       '/Profile': (context) => ProfilePage(),
       '/Groups': (context) => Groups(),
+      '/Search': (context) => SearchPage(),
     },
   )));
 }

@@ -36,13 +36,12 @@ class _GroupsState extends State<Groups> {
       appBar: AppBar(
         title: Text("DashBoard"),
       ),
-      floatingActionButton: CircleAvatar(
-        child: Icon(
-            Icons.add,
-        ),
+      floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
-        radius: 25.0,
-
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, "/Search");
+        },
       ),
 
       body: StreamBuilder(
@@ -60,17 +59,7 @@ class _GroupsState extends State<Groups> {
                   child: Container(
                     width: MediaQuery.of(context).size.width / 1.2,
                     height: MediaQuery.of(context).size.height / 6,
-                    child: Card(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                      ListTile(
-                        title: Text(document['groupName']),
-                        subtitle: Text(document["users"].join(",  ")),
-                      ),
-                    ],
-                  ),
-                ),
+                    child: Text("Title: " + document['groupName']),
                   ),
                 );
               }).toList(),
