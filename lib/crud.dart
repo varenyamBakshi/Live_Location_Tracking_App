@@ -54,8 +54,19 @@ class Crud {
         FirebaseFirestore.instance.collection(this.collectionName);
 
     if (full_name != null) {
+
+      List<String> SearchQueries = [];
+
+      for (var i = 1; i <= full_name.length; i++) {
+        SearchQueries.add(full_name.substring(0, i));
+      }
+      
       collectionReference.doc(_auth.currentUser!.uid.toString()).update({
         "full_name": full_name,
+        "SearchQueries": FieldValue.delete(),
+      });
+      collectionReference.doc(_auth.currentUser!.uid.toString()).update({
+        "SearchQueries": FieldValue.arrayUnion(SearchQueries),
       });
       print("full_name updated");
     }

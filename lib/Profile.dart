@@ -144,7 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 borderRadius: BorderRadius.circular(8),
                                               )
                                           ),
-                                          onSaved: (input)=> _username=input!,
+                                          onc: (input)=> _username=input!,
 
                                         )
                                     ),
