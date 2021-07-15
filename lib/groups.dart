@@ -18,14 +18,12 @@ class Groups extends StatefulWidget {
 }
 
 class _GroupsState extends State<Groups> {
-
   late Stream<QuerySnapshot> cr;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Location location = new Location();
   late final _currentlocation;
   checkAuthentication() async {
-
     _auth.authStateChanges().listen((user) {
       if (user == null) Navigator.pushReplacementNamed(context, "/Login");
     });
@@ -63,7 +61,6 @@ class _GroupsState extends State<Groups> {
   //
   //
   // }
-  
 
   // this function is temporary
   void addSearchQueries() {
