@@ -54,7 +54,7 @@ class _SearchPageState extends State<SearchPage>
 
         FirebaseFirestore.instance
             .collection('data')
-            .where('full_name', isEqualTo: text)
+            .where('SearchQueries', arrayContains: text)
             .get()
             .then((snapshot) {
           setState(() {

@@ -29,13 +29,35 @@ class _GroupsState extends State<Groups> {
     }
     );
   }
-
-  // this function is temporary
-  void addSearchQueries(){
-    
-    var fb = FirebaseFirestore.instance.collection('data');
-    
-  }
+  //
+  // // this function is temporary
+  // void addSearchQueries() async {
+  //
+  //   var fb = FirebaseFirestore.instance.collection('data').snapshots();
+  //
+  //   await fb.forEach((element) async {
+  //     List docs = element.docs;
+  //
+  //     for(var doc in docs){
+  //
+  //       List SearchQueries = [];
+  //
+  //       for (var i = 1; i <= doc["full_name"].length; i++) {
+  //         SearchQueries.add(doc["full_name"].substring(0, i));
+  //       }
+  //
+  //       print(doc["full_name"]);
+  //
+  //       await FirebaseFirestore.instance.collection('data').doc(doc.id).update(
+  //           {
+  //             "SearchQueries" : FieldValue.arrayUnion(SearchQueries),
+  //           });
+  //     }
+  //   });
+  //
+  //
+  //
+  // }
   
   @override
   void initState() {
@@ -47,6 +69,9 @@ class _GroupsState extends State<Groups> {
         .snapshots();
     print("current username: ${_auth.currentUser!.displayName}");
     checkAuthentication();
+
+    //addSearchQueries();
+    print("function completed");
 
     super.initState();
   }
