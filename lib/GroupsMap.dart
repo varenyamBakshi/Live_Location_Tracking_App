@@ -81,11 +81,14 @@ class _FireMapState extends State<FireMap> {
           .within(
               center: center, radius: rad, field: 'position', strictMode: true);
     });
+
+    //_initializemarkers();
   }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.bottomLeft,
       children: [
         GoogleMap(
           markers: markers,
@@ -96,15 +99,19 @@ class _FireMapState extends State<FireMap> {
           myLocationEnabled:
               true, // Add little blue dot for device location, requires permission from user
         ),
-        Slider(
-          min: 1,
-          max: 1000,
-          divisions: 200,
-          activeColor: Colors.deepPurpleAccent,
-          inactiveColor: Colors.deepPurpleAccent.withOpacity(0.2),
-          value: _value,
-          label: _label,
-          onChanged: (double value) => changed(value),
+        Container(
+          height: 130.0,
+          width: 160.0,
+          child: Slider(
+            min: 1,
+            max: 1000,
+            divisions: 200,
+            activeColor: Colors.deepPurpleAccent,
+            inactiveColor: Colors.deepPurple.withOpacity(0.5),
+            value: _value,
+            label: _label,
+            onChanged: (double value) => changed(value),
+          ),
         ),
       ],
     );
@@ -139,13 +146,13 @@ class _FireMapState extends State<FireMap> {
       mapController = controller;
     });
     stream.listen((List<DocumentSnapshot> documentList) {
+      markers.clear();
       _updateMarkers(documentList);
     });
   }
 
   _updateMarkers(List<DocumentSnapshot> documentList) {
     print('updating markers');
-    markers.clear();
     documentList.forEach((DocumentSnapshot document) {
       final GeoPoint point = document['position']['geopoint'];
       _addMarker(point.latitude, point.longitude, document['name']);
