@@ -54,13 +54,13 @@ class Crud {
         FirebaseFirestore.instance.collection(this.collectionName);
 
     if (full_name != null) {
-      collectionReference.doc(_uid).update({
+      collectionReference.doc(_auth.currentUser!.uid.toString()).update({
         "full_name": full_name,
       });
       print("full_name updated");
     }
     if (email != null) {
-      collectionReference.doc(_uid).update({
+      collectionReference.doc(_auth.currentUser!.uid.toString()).update({
         "email": email,
       });
       print("email updated");
