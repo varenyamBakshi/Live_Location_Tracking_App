@@ -36,7 +36,7 @@ class _SignupPageState extends State<SignupPage> {
 
   checkAuthentication() async {
     _auth.authStateChanges().listen((user) async {
-      if (user != null) {
+      if (user != null && user.displayName != null) {
         Navigator.pushReplacementNamed(context, "/Groups");
       }
     });
@@ -56,21 +56,27 @@ class _SignupPageState extends State<SignupPage> {
 
       try {
         UserCredential user = await _auth.createUserWithEmailAndPassword(
-            email: _email, password: _password);
+            email: _email, password: _password).then((value) async {
 
-        //adding this user information to "data" collection
-        Crud newUser = new Crud();
-        newUser.addUser(loc: geoposition);
-        newUser.updateData(full_name: _username);
-
-        if (user != null) {
           // UserUpdateInfo updateuser = UserUpdateInfo();
           // updateuser.displayName = _name;
           //  user.updateProfile(updateuser);
           await _auth.currentUser!.updateDisplayName(_username);
           // await Navigator.pushReplacementNamed(context,"/") ;
 
-        }
+          return value;
+
+        });
+
+        //adding this user information to "data" collection
+
+
+
+        Crud newUser = new Crud();
+        await newUser.addUser(loc: geoposition);
+        await newUser.updateData(full_name: _username);
+
+
       } catch (e) {
         showError(e.toString());
         print(e);

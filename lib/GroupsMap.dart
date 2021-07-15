@@ -13,7 +13,7 @@ late String Grpid;
 class GroupMap extends StatelessWidget {
   late String _title;
 
-  GroupMap(String grpid, String Title) {
+  GroupMap( {required String grpid, required String Title}) {
     Grpid = grpid;
     _title = Title; //.................;
   }

@@ -21,11 +21,11 @@ class Crud {
     CollectionReference collectionReference =
         FirebaseFirestore.instance.collection(this.collectionName);
 
-    // List<String> SearchQueries = [];
-    //
-    // for(var i=1;i<this._auth.currentUser!.displayName!.length;i++){
-    //   SearchQueries.add(this._auth.currentUser!.displayName!.substring(0,i));
-    // }
+    List<String> SearchQueries = [];
+
+    for (var i = 1; i <= this._auth.currentUser!.displayName!.length; i++) {
+      SearchQueries.add(this._auth.currentUser!.displayName!.substring(0, i));
+    }
 
     print(_uid);
     //var loc = {"Latitude": lat, "Longitude": long};
@@ -34,7 +34,7 @@ class Crud {
       "email": this._auth.currentUser!.email.toString(),
       "uid": _uid,
       "location": loc.toString(),
-     // "SearchQueries": SearchQueries,
+      "SearchQueries": FieldValue.arrayUnion(SearchQueries),
     });
     print("New user added");
     return;

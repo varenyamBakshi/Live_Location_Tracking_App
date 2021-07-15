@@ -7,6 +7,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'GroupsMap.dart';
 
 class Groups extends StatefulWidget {
   const Groups({Key? key}) : super(key: key);
@@ -19,13 +20,33 @@ class _GroupsState extends State<Groups> {
 
   late Stream<QuerySnapshot> cr;
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  checkAuthentication() async {
+
+    _auth.authStateChanges().listen((user) {
+      if (user == null) Navigator.pushReplacementNamed(context, "/Login");
+    }
+    );
+  }
+
+  // this function is temporary
+  void addSearchQueries(){
+    
+    var fb = FirebaseFirestore.instance.collection('data');
+    
+  }
+  
   @override
   void initState() {
     FirebaseAuth _auth = FirebaseAuth.instance;
+
     cr = FirebaseFirestore.instance
         .collection('groups')
         .where('users', arrayContains: _auth.currentUser!.displayName)
         .snapshots();
+    print("current username: ${_auth.currentUser!.displayName}");
+    checkAuthentication();
 
     super.initState();
   }
@@ -35,6 +56,19 @@ class _GroupsState extends State<Groups> {
     return Scaffold(
       appBar: AppBar(
         title: Text("DashBoard"),
+        actions: [
+          RichText( //                              for sign out and go back to login page
+            text: TextSpan(
+                text: 'Sign Out',
+                style: TextStyle(color: Colors.grey[700], fontSize: 20.0,),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    FirebaseAuth.instance.signOut();
+                    //this.checkAuthentication();
+                  }
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
@@ -44,7 +78,11 @@ class _GroupsState extends State<Groups> {
         },
       ),
 
-      body: StreamBuilder(
+      body: _auth.currentUser!.displayName == null?
+        Container(
+            child: Text("Currently You are not in any group, for creating a new group tap the '+' button"),
+          )
+          :StreamBuilder(
           stream: cr,
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -71,6 +109,16 @@ class _GroupsState extends State<Groups> {
                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
                               ),
                               subtitle: Text(document["users"].join(",  ")),
+                              onTap:(){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => GroupMap(
+                                          grpid: document.id.toString(),
+                                          Title: document['groupName'].toString()
+                                        ),
+                                ),
+                                  );
+                            },
                             ),
                           ],
                         ),
