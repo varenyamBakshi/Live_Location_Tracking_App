@@ -144,47 +144,25 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 borderRadius: BorderRadius.circular(8),
                                               )
                                           ),
-                                          onc: (input)=> _username=input!,
+                                          onChanged: (input)=> _username=input!,
 
                                         )
                                     ),
                                     Container(
                                         padding: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
-                                        child: TextFormField(
-                                          cursorColor: Colors.white,
+                                        child: Text(
+                                         _email,
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 20,
                                           ),
-                                          validator: (input)
-                                          {
-                                            if(input!.isEmpty)
-                                              return 'Enter E-mail';
-                                          },
-                                          decoration: InputDecoration(
-
-                                              hintText: _email,
-                                              hintStyle: TextStyle(
-                                                color: Colors.white38,
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(width: 1, color: Colors.white38),
-                                                borderRadius: BorderRadius.circular(8),
-
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(width: 1, color: Colors.white38),
-                                                borderRadius: BorderRadius.circular(8),
-                                              )
-                                          ),
-                                          onSaved: (input)=> _email=input!,
 
                                         )
                                     ),
 
                                     SizedBox(height: 20.0),
                                     FlatButton(
-                                      onPressed: ()=>{crud.updateData(full_name:_username,email:_email)},
+                                      onPressed: ()=>{crud.updateData(full_name:_username)},
                                       color: Color(0xffBB86FC),
                                       child: Text(
                                           'Update',
@@ -196,37 +174,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                                     ),
                                     SizedBox(height: 10.0),
-                                    FlatButton(
 
-                                        onPressed: () async {
-                                          //Navigator.of(context).restorablePush(_dialogBuilder);
-                                          _displayTextInputDialog(context);
-
-                                          if(_password!="") {
-                                            String email = _auth.currentUser!.email.toString();
-
-
-
-                                            AuthCredential credential = EmailAuthProvider.credential(email: email, password: _password);
-
-
-                                            FirebaseAuth.instance.currentUser!.reauthenticateWithCredential(credential);
-                                            crud.deleteUser();
-
-                                          }
-                                        },
-
-
-                                      color: Color(0xffBB86FC),
-                                      child: Text(
-                                          'Delete',
-                                          style: TextStyle(
-                                            fontSize: 20.0,
-                                          )
-                                      ),
-
-
-                                    ),
                                   ]
                               )
                           )
