@@ -46,7 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   // }
 
-  Future<void> _displayTextInputDialog(BuildContext context) async {
+   _displayTextInputDialog(BuildContext context)  {
     TextEditingController _textFieldController = TextEditingController();
 
     return showDialog(
@@ -55,9 +55,6 @@ class _ProfilePageState extends State<ProfilePage> {
           return AlertDialog(
             title: Text('TextField in Dialog'),
             content: TextField(
-              onChanged: (value) {
-
-              },
               obscureText: true,
               controller: _textFieldController,
               decoration: InputDecoration(hintText: "Text Field in Dialog"),
@@ -72,6 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: const Text('ENTER'),
                   onPressed: () {
                     _password = _textFieldController.toString();
+                    print(_password);
                     Navigator.pop(context);
                   })
             ],
@@ -150,19 +148,63 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                     Container(
                                         padding: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
-                                        child: Text(
-                                         _email,
+                                        child: TextFormField(
+                                          cursorColor: Colors.white,
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 20,
                                           ),
+                                          validator: (input)
+                                          {
+                                            if(input!.isEmpty)
+                                              return 'Enter E-mail';
+                                          },
+                                          decoration: InputDecoration(
+
+                                              hintText: _email,
+                                              hintStyle: TextStyle(
+                                                color: Colors.white38,
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(width: 1, color: Colors.white38),
+                                                borderRadius: BorderRadius.circular(8),
+
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(width: 1, color: Colors.white38),
+                                                borderRadius: BorderRadius.circular(8),
+                                              )
+                                          ),
+                                          onChanged: (input)=> _email=input!,
+
 
                                         )
                                     ),
 
                                     SizedBox(height: 20.0),
                                     FlatButton(
-                                      onPressed: ()=>{crud.updateData(full_name:_username)},
+                                      onPressed: (){try{print("check1");crud.UpdateUser(full_name:_username,email:_email);}
+                                      catch(e) {
+
+                        print("check2");
+                      _displayTextInputDialog(context);
+                      //print(_auth.currentUser!.email.toString());
+
+                      if(_password!="") {
+                      String email = _auth.currentUser!.email.toString();
+
+
+
+                      AuthCredential credential = EmailAuthProvider.credential(email: email, password: _password);
+
+
+                      FirebaseAuth.instance.currentUser!.reauthenticateWithCredential(credential);
+
+                      crud.UpdateUser(full_name:_username,email:_email);
+                      }
+
+                      }
+                                      },
                                       color: Color(0xffBB86FC),
                                       child: Text(
                                           'Update',
@@ -174,7 +216,41 @@ class _ProfilePageState extends State<ProfilePage> {
 
                                     ),
                                     SizedBox(height: 10.0),
+                                    FlatButton(
 
+                                        onPressed: () {
+                                          try{crud.UpdateUser(full_name:_username,email:_email);}
+                                          catch(e) {
+
+                                             _displayTextInputDialog(context);
+                                            //print(_auth.currentUser!.email.toString());
+
+                                            if(_password!="") {
+                                              String email = _auth.currentUser!.email.toString();
+
+
+
+                                              AuthCredential credential = EmailAuthProvider.credential(email: email, password: _password);
+
+
+                                              FirebaseAuth.instance.currentUser!.reauthenticateWithCredential(credential);
+
+                                              crud.deleteUser();
+                                            }
+                                          }
+                                        },
+
+
+                                      color: Color(0xffBB86FC),
+                                      child: Text(
+                                          'Delete',
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                          )
+                                      ),
+
+
+                                    ),
                                   ]
                               )
                           )

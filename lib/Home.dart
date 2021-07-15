@@ -32,6 +32,32 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xffBB86FC),
+          title: Text(
+            'Home Screen',
+            style: TextStyle(
+              color: Color(0xff121212),
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
+
+
+          ),
+
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.settings),
+              color: Color(0xff121212),
+              tooltip: 'Edit profile',
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, "/Profile");
+                // handle the press
+              },
+            ),
+          ],
+
+        ),
         backgroundColor: Color(0xff121212),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 200.0),

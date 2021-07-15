@@ -25,6 +25,7 @@ void main() async {
       '/Groups': (context) => Groups(),
       '/Search': (context) => SearchPage(),
 
+
     },
   )));
 }

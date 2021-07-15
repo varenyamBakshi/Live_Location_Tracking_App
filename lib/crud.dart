@@ -52,7 +52,8 @@ class Crud {
   updateData({String? full_name, String? email}) async {
     CollectionReference collectionReference =
         FirebaseFirestore.instance.collection(this.collectionName);
-
+    print(full_name);
+    print(email);
     if (full_name != null) {
 
       List<String> SearchQueries = [];
@@ -69,13 +70,16 @@ class Crud {
         "SearchQueries": FieldValue.arrayUnion(SearchQueries),
       });
       print("full_name updated");
+      print(_auth.currentUser!.uid.toString());
     }
     if (email != null) {
       collectionReference.doc(_auth.currentUser!.uid.toString()).update({
         "email": email,
       });
       print("email updated");
+      print(_auth.currentUser!.uid.toString());
     }
+    print(this.collectionName);
   }
 
   deleteData() async {
