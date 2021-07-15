@@ -18,12 +18,14 @@ class Groups extends StatefulWidget {
 }
 
 class _GroupsState extends State<Groups> {
+
   late Stream<QuerySnapshot> cr;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Location location = new Location();
   late final _currentlocation;
   checkAuthentication() async {
+
     _auth.authStateChanges().listen((user) {
       if (user == null) Navigator.pushReplacementNamed(context, "/Login");
     });
@@ -32,6 +34,36 @@ class _GroupsState extends State<Groups> {
   getLocation() async {
     _currentlocation = await location.getLocation();
   }
+  //
+  // // this function is temporary
+  // void addSearchQueries() async {
+  //
+  //   var fb = FirebaseFirestore.instance.collection('data').snapshots();
+  //
+  //   await fb.forEach((element) async {
+  //     List docs = element.docs;
+  //
+  //     for(var doc in docs){
+  //
+  //       List SearchQueries = [];
+  //
+  //       for (var i = 1; i <= doc["full_name"].length; i++) {
+  //         SearchQueries.add(doc["full_name"].substring(0, i));
+  //       }
+  //
+  //       print(doc["full_name"]);
+  //
+  //       await FirebaseFirestore.instance.collection('data').doc(doc.id).update(
+  //           {
+  //             "SearchQueries" : FieldValue.arrayUnion(SearchQueries),
+  //           });
+  //     }
+  //   });
+  //
+  //
+  //
+  // }
+  
 
   // this function is temporary
   void addSearchQueries() {
@@ -49,6 +81,9 @@ class _GroupsState extends State<Groups> {
     print("current username: ${_auth.currentUser!.displayName}");
     checkAuthentication();
     getLocation();
+
+    //addSearchQueries();
+    print("function completed");
 
     super.initState();
   }
