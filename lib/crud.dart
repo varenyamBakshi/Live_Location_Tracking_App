@@ -67,9 +67,7 @@ class Crud {
         "SearchQueries": FieldValue.delete(),
         "SearchQueries": FieldValue.arrayUnion(SearchQueries),
       });
-      collectionReference.doc(_auth.currentUser!.uid.toString()).update({
-        "SearchQueries": FieldValue.arrayUnion(SearchQueries),
-      });
+
       print("full_name updated");
       print(_auth.currentUser!.uid.toString());
     }
