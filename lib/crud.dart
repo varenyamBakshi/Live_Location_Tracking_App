@@ -23,8 +23,8 @@ class Crud {
 
     List<String> SearchQueries = [];
 
-    for(var i=1;i<this._auth.currentUser!.displayName!.length;i++){
-      SearchQueries.add(this._auth.currentUser!.displayName!.substring(0,i));
+    for (var i = 1; i < this._auth.currentUser!.displayName!.length; i++) {
+      SearchQueries.add(this._auth.currentUser!.displayName!.substring(0, i));
     }
 
     print(_uid);
@@ -45,7 +45,7 @@ class Crud {
         FirebaseFirestore.instance.collection(this.collectionName);
 
     await collectionReference.doc(_uid).get().then((value) {
-      return value.data();
+      print(value);
     });
   }
 

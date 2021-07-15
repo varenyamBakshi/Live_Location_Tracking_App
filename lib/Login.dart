@@ -144,7 +144,6 @@ class _LoginPageState extends State<LoginPage> {
                                     borderSide: BorderSide(
                                         width: 1, color: Colors.white38),
                                     borderRadius: BorderRadius.circular(8),
-
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -215,9 +214,11 @@ class _LoginPageState extends State<LoginPage> {
                                     decoration: TextDecoration.underline),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    Navigator.push(context, new MaterialPageRoute(
-                                        builder: (context) => new SignupPage())
-                                    );
+                                    Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (context) =>
+                                                new SignupPage()));
                                     //this.checkAuthentication();
                                   })
                           ]),

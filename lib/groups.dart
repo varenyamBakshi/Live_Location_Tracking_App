@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
@@ -5,7 +7,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 
 class Groups extends StatefulWidget {
   const Groups({Key? key}) : super(key: key);
@@ -15,20 +16,18 @@ class Groups extends StatefulWidget {
 }
 
 class _GroupsState extends State<Groups> {
-
   late Stream<QuerySnapshot> cr;
 
   @override
   void initState() {
-
-    FirebaseAuth _auth = FirebaseAuth.instance ;
-    cr = FirebaseFirestore.instance.collection('groups').where('users', arrayContains: _auth.currentUser!.displayName).snapshots();
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    cr = FirebaseFirestore.instance
+        .collection('groups')
+        .where('users', arrayContains: _auth.currentUser!.displayName)
+        .snapshots();
 
     super.initState();
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +42,11 @@ class _GroupsState extends State<Groups> {
           Navigator.pushReplacementNamed(context, "/Search");
         },
       ),
-
       body: StreamBuilder(
           stream: cr,
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-            if(!snapshot.hasData){
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
               return Center(
                 child: CircularProgressIndicator(),
               );
@@ -59,12 +58,18 @@ class _GroupsState extends State<Groups> {
                   child: Container(
                     width: MediaQuery.of(context).size.width / 1.2,
                     height: MediaQuery.of(context).size.height / 6,
-                      child: Card(
+                    child: Card(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           ListTile(
-                            title: Text(document['groupName']),
+                            title: Text(
+                              document['groupName'],
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             subtitle: Text(document["users"].join(",  ")),
                           ),
                         ],
@@ -74,8 +79,7 @@ class _GroupsState extends State<Groups> {
                 );
               }).toList(),
             );
-          }
-      ),
+          }),
     );
   }
 }
