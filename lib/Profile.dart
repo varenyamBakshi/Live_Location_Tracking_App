@@ -86,11 +86,6 @@ class _ProfilePageState extends State<ProfilePage> {
     this.checkAuthentication();
     _email=_auth.currentUser!.email.toString();
     _username=_auth.currentUser!.displayName.toString();
-
-    var users = FirebaseFirestore.instance.collection('users').doc(_auth.currentUser!.uid).get();
-
-    Map<String, dynamic> data = users as Map<String, dynamic>;
-    _username =  data['full_name'];
   }
   @override
   Widget build(BuildContext context) {
