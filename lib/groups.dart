@@ -16,6 +16,7 @@ class Groups extends StatefulWidget {
 }
 
 class _GroupsState extends State<Groups> {
+
   late Stream<QuerySnapshot> cr;
 
   @override
@@ -42,6 +43,7 @@ class _GroupsState extends State<Groups> {
           Navigator.pushReplacementNamed(context, "/Search");
         },
       ),
+
       body: StreamBuilder(
           stream: cr,
           builder:
@@ -56,25 +58,24 @@ class _GroupsState extends State<Groups> {
               children: snapshot.data!.docs.map((document) {
                 return Center(
                   child: Container(
-                    width: MediaQuery.of(context).size.width / 1.2,
-                    height: MediaQuery.of(context).size.height / 6,
-                    child: Card(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          ListTile(
-                            title: Text(
-                              document['groupName'],
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
+                    width: MediaQuery.of(context).size.width / 1.1,
+                    height: MediaQuery.of(context).size.height / 7,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+                              title: Text(document['groupName'],
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
                               ),
+                              subtitle: Text(document["users"].join(",  ")),
                             ),
-                            subtitle: Text(document["users"].join(",  ")),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
                     ),
+                      ),
                   ),
                 );
               }).toList(),

@@ -37,6 +37,7 @@ class _SearchPageState extends State<SearchPage>
   }
 
   Widget _buildSearchField() {
+
     return new TextField(
       controller: _searchQuery,
       autofocus: true,
@@ -201,60 +202,114 @@ class _SearchPageState extends State<SearchPage>
     });
   }
 
+  TextEditingController _groupNamecontroller = TextEditingController();
+
+  createAlertDialog(BuildContext context){
+
+    return showDialog(context: context, builder: (context){
+      return AlertDialog(
+        title: Text("Enter Group Name: ",
+        style: TextStyle(fontWeight: FontWeight.bold),),
+        content: TextField(
+          controller: _groupNamecontroller,
+        ),
+        actions : <Widget>[
+          MaterialButton(
+              elevation: 5.0,
+              child: Text('Create',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blue),),
+              onPressed: (){
+                Navigator.of(context).pop();
+                createcollectiongroup();
+          })
+        ]
+      );
+    });
+  }
+
+
+  Future<void> createcollectiongroup() async {
+    _selectedusernames.insert(_selectedusernames.length, _username);
+    Map<String, dynamic> mapgroups = {
+      'groupName': _groupNamecontroller.text,
+      'users': _selectedusernames
+    };
+    try{
+      await FirebaseFirestore.instance.collection('groups').add(mapgroups);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Group created')));
+      setState(() {
+        _selectedusernames.clear();
+        _selectedusernamesbool.clear();
+      });
+    } catch(e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Failed to create group ${e}')));
+    }
+    Navigator.pushReplacementNamed(context, "/Groups");
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        key: scaffoldKey,
-        appBar: new AppBar(
-          leading: _isSearching ? const BackButton() : null,
-          title: _isSearching ? _buildSearchField() : _buildTitle(context),
-          actions: _buildActions(),
+      key: scaffoldKey,
+      appBar: new AppBar(
+        leading: _isSearching ? const BackButton() : null,
+        title: _isSearching ? _buildSearchField() : _buildTitle(context),
+        actions: _buildActions(),
+      ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.blue,
+          child: Icon(Icons.check),
+          onPressed: () {
+            createAlertDialog(context);
+          },
         ),
-        body: _isLoading
-            ? Center(child: CircularProgressIndicator())
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2.0),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Wrap(
-                            spacing: 6.0,
-                            runSpacing: 6.0,
-                            children: _selectedusernames
-                                .map((item) =>
-                                    _buildChip(item, Color(0xffff6666)))
-                                .toList()
-                                .cast<Widget>()),
-                      )),
-                  Divider(thickness: 1.0),
-                  SizedBox(
-                    height: 200.0,
-                    child: ListView.builder(
-                      itemCount: _usernames.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          color: _selectedusernames.contains(_usernames[index])
-                              ? Colors.grey
-                              : Colors.white,
-                          child: ListTile(
-                            title: Text('${_usernames[index]}'),
-                            onLongPress: () {
-                              setState(() {
-                                if (!_selectedusernames
-                                    .contains(_usernames[index])) {
-                                  _selectedusernames.add(_usernames[index]);
-                                }
-                              });
-                            },
-                          ),
-                        );
-                      },
-                    ),
+      body: _isLoading
+        ? Center(child: CircularProgressIndicator())
+          : Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2.0),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Wrap(
+                spacing: 6.0,
+                runSpacing: 6.0,
+                children: _selectedusernames
+                    .map((item) => _buildChip(item, Color(0xffff6666)))
+                    .toList()
+                    .cast<Widget>()),
+              )
+            ),
+          Divider(thickness: 1.0),
+          SizedBox(
+            height: 200.0,
+            child: ListView.builder(
+
+              itemCount: _usernames.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  color:  _selectedusernames.contains(_usernames[index]) ? Colors.grey: Colors.white,
+                  child: ListTile(
+                    title: Text('${_usernames[index]}'),
+                    onTap: () {
+                      setState(() {
+                        if(!_selectedusernames.contains(_usernames[index])) {
+                          _selectedusernames.add(_usernames[index]);
+                        }
+                      });
+                    },
+
                   ),
-                ],
-              ));
+                );
+              },
+            ),
+          ),
+        ],
+      )
+    );
   }
 }
 
