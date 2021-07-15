@@ -61,7 +61,7 @@ class Crud {
     }
     if (email != null) {
       collectionReference.doc(_uid).update({
-        email: email,
+        "email": email,
       });
       print("email updated");
     }
