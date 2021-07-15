@@ -1,7 +1,8 @@
 import 'dart:ui';
-
+import 'package:location/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -17,17 +18,19 @@ class Groups extends StatefulWidget {
 }
 
 class _GroupsState extends State<Groups> {
-
   late Stream<QuerySnapshot> cr;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  Location location = new Location();
+  late final _currentlocation;
   checkAuthentication() async {
-
     _auth.authStateChanges().listen((user) {
       if (user == null) Navigator.pushReplacementNamed(context, "/Login");
-    }
-    );
+    });
+  }
+
+  getLocation() async {
+    _currentlocation = await location.getLocation();
   }
   //
   // // this function is temporary
@@ -58,7 +61,12 @@ class _GroupsState extends State<Groups> {
   //
   //
   // }
-  
+
+  // this function is temporary
+  void addSearchQueries() {
+    var fb = FirebaseFirestore.instance.collection('data');
+  }
+
   @override
   void initState() {
     FirebaseAuth _auth = FirebaseAuth.instance;
@@ -69,6 +77,7 @@ class _GroupsState extends State<Groups> {
         .snapshots();
     print("current username: ${_auth.currentUser!.displayName}");
     checkAuthentication();
+    getLocation();
 
     //addSearchQueries();
     print("function completed");
@@ -82,16 +91,19 @@ class _GroupsState extends State<Groups> {
       appBar: AppBar(
         title: Text("DashBoard"),
         actions: [
-          RichText( //                              for sign out and go back to login page
+          RichText(
+            //for sign out and go back to login page
             text: TextSpan(
                 text: 'Sign Out',
-                style: TextStyle(color: Colors.grey[700], fontSize: 20.0,),
+                style: TextStyle(
+                  color: Colors.grey[700],
+                  fontSize: 20.0,
+                ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
                     FirebaseAuth.instance.signOut();
                     //this.checkAuthentication();
-                  }
-            ),
+                  }),
           ),
         ],
       ),
@@ -102,58 +114,67 @@ class _GroupsState extends State<Groups> {
           Navigator.pushReplacementNamed(context, "/Search");
         },
       ),
+      body: _auth.currentUser!.displayName == null
+          ? Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              child: Center(
+                  child: Text(
+                      "Currently You are not in any group, for creating a new group tap the '+' button")),
+            )
+          : StreamBuilder(
+              stream: cr,
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
 
-      body: _auth.currentUser!.displayName == null?
-        Container(
-            child: Text("Currently You are not in any group, for creating a new group tap the '+' button"),
-          )
-          :StreamBuilder(
-          stream: cr,
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            return ListView(
-              children: snapshot.data!.docs.map((document) {
-                return Center(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 1.1,
-                    height: MediaQuery.of(context).size.height / 7,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Card(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            ListTile(
-                              title: Text(document['groupName'],
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
-                              ),
-                              subtitle: Text(document["users"].join(",  ")),
-                              onTap:(){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => GroupMap(
+                return ListView(
+                  children: snapshot.data!.docs.map((document) {
+                    return Center(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 1.1,
+                        height: MediaQuery.of(context).size.height / 7,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                ListTile(
+                                  title: Text(
+                                    document['groupName'],
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 19),
+                                  ),
+                                  subtitle: Text(document["users"].join(",  ")),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => GroupMap(
                                           grpid: document.id.toString(),
-                                          Title: document['groupName'].toString()
+                                          Title:
+                                              document['groupName'].toString(),
+                                          userlat: _currentlocation.latitude,
+                                          userlong: _currentlocation.longitude,
                                         ),
+                                      ),
+                                    );
+                                  },
                                 ),
-                                  );
-                            },
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                    ),
                       ),
-                  ),
+                    );
+                  }).toList(),
                 );
-              }).toList(),
-            );
-          }),
+              }),
     );
   }
 }
