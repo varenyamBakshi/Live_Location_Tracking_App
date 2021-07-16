@@ -65,6 +65,9 @@ class Crud {
       collectionReference.doc(_auth.currentUser!.uid.toString()).update({
         "full_name": full_name,
         "SearchQueries": FieldValue.delete(),
+
+      });
+      collectionReference.doc(_auth.currentUser!.uid.toString()).update({
         "SearchQueries": FieldValue.arrayUnion(SearchQueries),
       });
 

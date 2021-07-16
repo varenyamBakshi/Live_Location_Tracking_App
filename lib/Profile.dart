@@ -85,8 +85,16 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     this.checkAuthentication();
     _email=_auth.currentUser!.email.toString();
-    _username=_auth.currentUser!.displayName.toString();
+    //_username=_auth.currentUser!.displayName.toString();
+    var document = FirebaseFirestore.instance.collection('data').doc(_auth.currentUser!.uid);
+    document.get().then((document){
+      _username = document["full_name"].toString();
+      //print("/////");
+      print(_username);
+    });
   }
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -143,7 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 borderRadius: BorderRadius.circular(8),
                                               )
                                           ),
-                                          onChanged: (input)=> _username=input!,
+                                          onChanged: (input)=> _username=input,
 
                                         )
                                     ),
