@@ -107,8 +107,8 @@ class _LoginPageState extends State<LoginPage> {
               Divider(),
               CircleAvatar(
                 radius: 80.0,
-                backgroundImage: NetworkImage(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-H5Zr1VJQqLqotQUd24-1gB9ALlspKcqbtA&usqp=CAU'),
+                backgroundImage: AssetImage('assets/images.png'
+                ),
               ),
               // Container(
               //   child: ButtonTheme(
