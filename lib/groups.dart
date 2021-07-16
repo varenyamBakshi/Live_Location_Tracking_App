@@ -3,11 +3,8 @@ import 'package:location/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'main.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'GroupsMap.dart';
 
 class Groups extends StatefulWidget {
@@ -20,7 +17,6 @@ class Groups extends StatefulWidget {
 class _GroupsState extends State<Groups> {
   late Stream<QuerySnapshot> cr;
   bool groupChecker = false;
-
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Location location = new Location();
@@ -64,13 +60,9 @@ class _GroupsState extends State<Groups> {
   //
   // }
 
-
-
-
   @override
   void initState() {
     FirebaseAuth _auth = FirebaseAuth.instance;
-
 
     cr = FirebaseFirestore.instance
         .collection('groups')
@@ -90,7 +82,8 @@ class _GroupsState extends State<Groups> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("DashBoard",
+        title: Text(
+          "DashBoard",
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -118,8 +111,12 @@ class _GroupsState extends State<Groups> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor:  Color(0xffBB86FC),
-        child: Icon(Icons.add, color: Colors.black, size: 36,),
+        backgroundColor: Color(0xffBB86FC),
+        child: Icon(
+          Icons.add,
+          color: Colors.black,
+          size: 36,
+        ),
         onPressed: () {
           Navigator.pushNamed(context, "/Search");
         },
@@ -156,16 +153,18 @@ class _GroupsState extends State<Groups> {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 ListTile(
-
                                   title: Text(
                                     document['groupName'],
                                     style: TextStyle(
-                                        //fontWeight: FontWeight.bold,
-                                        fontSize: 19,
-                                        color:Colors.white,
+                                      //fontWeight: FontWeight.bold,
+                                      fontSize: 19,
+                                      color: Colors.white,
                                     ),
                                   ),
-                                  subtitle: Text(document["users"].join(",  "), style: TextStyle(color:Color(0xffBB86FC)),),
+                                  subtitle: Text(
+                                    document["users"].join(",  "),
+                                    style: TextStyle(color: Color(0xffBB86FC)),
+                                  ),
                                   onTap: () {
                                     Navigator.push(
                                       context,

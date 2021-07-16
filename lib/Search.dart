@@ -1,11 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'main.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -37,7 +33,6 @@ class _SearchPageState extends State<SearchPage>
   }
 
   Widget _buildSearchField() {
-
     return new TextField(
       controller: _searchQuery,
       autofocus: true,
@@ -204,40 +199,49 @@ class _SearchPageState extends State<SearchPage>
 
   TextEditingController _groupNamecontroller = TextEditingController();
 
-  createAlertDialog(BuildContext context){
-
-    return showDialog(context: context, builder: (context){
-      return AlertDialog(
-        backgroundColor: Color(0xff121212),
-        title: Text("Enter Group Name: ",
-        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white.withOpacity(0.9)),),
-        content: TextField(
-          controller: _groupNamecontroller,
-          style: TextStyle(color: Colors.white),
-          decoration: InputDecoration(
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Color(0xffBB86FC), width: 2.0),
-            ),
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.white38, width: 2.0),
-            ),
-            hintText: 'Enter your name',
-          ),
-        ),
-        actions : <Widget>[
-          MaterialButton(
-              elevation: 5.0,
-              child: Text('Create',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color:  Color(0xffBB86FC)),),
-              onPressed: (){
-                Navigator.of(context).pop();
-                createcollectiongroup();
-          })
-        ]
-      );
-    });
+  createAlertDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              backgroundColor: Color(0xff121212),
+              title: Text(
+                "Enter Group Name: ",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white.withOpacity(0.9)),
+              ),
+              content: TextField(
+                controller: _groupNamecontroller,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color(0xffBB86FC), width: 2.0),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white38, width: 2.0),
+                  ),
+                  hintText: 'Enter your name',
+                ),
+              ),
+              actions: <Widget>[
+                MaterialButton(
+                    elevation: 5.0,
+                    child: Text(
+                      'Create',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Color(0xffBB86FC)),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      createcollectiongroup();
+                    })
+              ]);
+        });
   }
-
 
   Future<void> createcollectiongroup() async {
     _selectedusernames.insert(_selectedusernames.length, _username);
@@ -245,7 +249,7 @@ class _SearchPageState extends State<SearchPage>
       'groupName': _groupNamecontroller.text,
       'users': _selectedusernames
     };
-    try{
+    try {
       await FirebaseFirestore.instance.collection('groups').add(mapgroups);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Group created')));
@@ -253,7 +257,7 @@ class _SearchPageState extends State<SearchPage>
         _selectedusernames.clear();
         _selectedusernamesbool.clear();
       });
-    } catch(e) {
+    } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Failed to create group ${e}')));
     }
@@ -263,66 +267,70 @@ class _SearchPageState extends State<SearchPage>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      backgroundColor: Color(0xff121212),
-      key: scaffoldKey,
-      appBar: new AppBar(
-        backgroundColor: Colors.black,
-        leading: _isSearching ? const BackButton() : null,
-        title: _isSearching ? _buildSearchField() : _buildTitle(context),
-        actions: _buildActions(),
-      ),
+        backgroundColor: Color(0xff121212),
+        key: scaffoldKey,
+        appBar: new AppBar(
+          backgroundColor: Colors.black,
+          leading: _isSearching ? const BackButton() : null,
+          title: _isSearching ? _buildSearchField() : _buildTitle(context),
+          actions: _buildActions(),
+        ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color(0xffBB86FC),
-          child: Icon(Icons.check,color: Colors.black,size: 36,),
+          child: Icon(
+            Icons.check,
+            color: Colors.black,
+            size: 36,
+          ),
           onPressed: () {
             createAlertDialog(context);
           },
         ),
-      body: _isLoading
-        ? Center(child: CircularProgressIndicator())
-          : Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2.0),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Wrap(
-                spacing: 6.0,
-                runSpacing: 6.0,
-                children: _selectedusernames
-                    .map((item) => _buildChip(item,  Color(0xffBB86FC)))
-                    .toList()
-                    .cast<Widget>()),
-              )
-            ),
-          Divider(thickness: 1.0),
-          SizedBox(
-            height: 200.0,
-            child: ListView.builder(
-
-              itemCount: _usernames.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  color:  _selectedusernames.contains(_usernames[index]) ? Colors.grey: Colors.white,
-                  child: ListTile(
-                    title: Text('${_usernames[index]}'),
-                    onTap: () {
-                      setState(() {
-                        if(!_selectedusernames.contains(_usernames[index])) {
-                          _selectedusernames.add(_usernames[index]);
-                        }
-                      });
-                    },
-
+        body: _isLoading
+            ? Center(child: CircularProgressIndicator())
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2.0),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Wrap(
+                            spacing: 6.0,
+                            runSpacing: 6.0,
+                            children: _selectedusernames
+                                .map((item) =>
+                                    _buildChip(item, Color(0xffBB86FC)))
+                                .toList()
+                                .cast<Widget>()),
+                      )),
+                  Divider(thickness: 1.0),
+                  SizedBox(
+                    height: 200.0,
+                    child: ListView.builder(
+                      itemCount: _usernames.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          color: _selectedusernames.contains(_usernames[index])
+                              ? Colors.grey
+                              : Colors.white,
+                          child: ListTile(
+                            title: Text('${_usernames[index]}'),
+                            onTap: () {
+                              setState(() {
+                                if (!_selectedusernames
+                                    .contains(_usernames[index])) {
+                                  _selectedusernames.add(_usernames[index]);
+                                }
+                              });
+                            },
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                );
-              },
-            ),
-          ),
-        ],
-      )
-    );
+                ],
+              ));
   }
 }
 

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './Signup.dart';
-import './crudScreen.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
 
 class LoginPage extends StatefulWidget {
@@ -106,20 +103,25 @@ class _LoginPageState extends State<LoginPage> {
                       fontFamily: 'Roboto',
                       fontSize: 48.0,
                       color: Colors.white)),
-              SizedBox(height: 170.0),
+              SizedBox(height: 10.0),
               Divider(),
-              Container(
-                child: ButtonTheme(
-                  child: SignInButton(
-                    Buttons.Google,
-                    onPressed: () {
-                      _showButtonPressDialog(context, 'Google');
-                    },
-                  ),
-                  height: 48.0,
-                  minWidth: 300.0,
-                ),
+              CircleAvatar(
+                radius: 80.0,
+                backgroundImage: NetworkImage(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-H5Zr1VJQqLqotQUd24-1gB9ALlspKcqbtA&usqp=CAU'),
               ),
+              // Container(
+              //   child: ButtonTheme(
+              //     child: SignInButton(
+              //       Buttons.Google,
+              //       onPressed: () {
+              //         _showButtonPressDialog(context, 'Google');
+              //       },
+              //     ),
+              //     height: 48.0,
+              //     minWidth: 300.0,
+              //   ),
+              // ),
               Container(
                   child: Form(
                       key: _formKey,

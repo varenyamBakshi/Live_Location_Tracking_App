@@ -1,10 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'main.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class Crud {
   String collectionName = 'data';
@@ -55,17 +51,15 @@ class Crud {
     print(full_name);
     print(email);
     if (full_name != null) {
-
       List<String> SearchQueries = [];
 
       for (var i = 1; i <= full_name.length; i++) {
         SearchQueries.add(full_name.substring(0, i));
       }
-      
+
       collectionReference.doc(_auth.currentUser!.uid.toString()).update({
         "full_name": full_name,
         "SearchQueries": FieldValue.delete(),
-
       });
       collectionReference.doc(_auth.currentUser!.uid.toString()).update({
         "SearchQueries": FieldValue.arrayUnion(SearchQueries),

@@ -34,12 +34,16 @@ class GroupMap extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.black,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: (){
-              Navigator.pushReplacementNamed(context, "/Groups");
-            }
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, "/Groups");
+              }),
+          title: Text(
+            _title,
+            style: TextStyle(
+              fontSize: 24.0,
+            ),
           ),
-          title: Text(_title),
         ),
         body: FireMap(),
       ),

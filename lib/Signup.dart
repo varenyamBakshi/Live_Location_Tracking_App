@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:geolocator/geolocator.dart';
-import './crudScreen.dart';
 import 'Crud.dart';
 
 class SignupPage extends StatefulWidget {
@@ -55,9 +53,9 @@ class _SignupPageState extends State<SignupPage> {
       _formKey.currentState!.save();
 
       try {
-        UserCredential user = await _auth.createUserWithEmailAndPassword(
-            email: _email, password: _password).then((value) async {
-
+        UserCredential user = await _auth
+            .createUserWithEmailAndPassword(email: _email, password: _password)
+            .then((value) async {
           // UserUpdateInfo updateuser = UserUpdateInfo();
           // updateuser.displayName = _name;
           //  user.updateProfile(updateuser);
@@ -65,18 +63,13 @@ class _SignupPageState extends State<SignupPage> {
           // await Navigator.pushReplacementNamed(context,"/") ;
 
           return value;
-
         });
 
         //adding this user information to "data" collection
 
-
-
         Crud newUser = new Crud();
         await newUser.addUser(loc: geoposition);
         await newUser.updateData(full_name: _username);
-
-
       } catch (e) {
         showError(e.toString());
         print(e);
@@ -114,21 +107,26 @@ class _SignupPageState extends State<SignupPage> {
             Text('SIGN UP',
                 style: TextStyle(
                     fontFamily: 'Roboto', fontSize: 48.0, color: Colors.white)),
-            SizedBox(height: 130.0),
+            SizedBox(height: 10.0),
             Divider(),
-            Container(
-              child: ButtonTheme(
-                child: SignInButton(
-                  Buttons.Google,
-                  text: 'Sign up with Google',
-                  onPressed: () {
-                    _showButtonPressDialog(context, 'Google');
-                  },
-                ),
-                height: 48.0,
-                minWidth: 300.0,
-              ),
+            CircleAvatar(
+              radius: 80.0,
+              backgroundImage: NetworkImage(
+                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-H5Zr1VJQqLqotQUd24-1gB9ALlspKcqbtA&usqp=CAU'),
             ),
+            // Container(
+            //   child: ButtonTheme(
+            //     child: SignInButton(
+            //       Buttons.Google,
+            //       text: 'Sign up with Google',
+            //       onPressed: () {
+            //         _showButtonPressDialog(context, 'Google');
+            //       },
+            //     ),
+            //     height: 48.0,
+            //     minWidth: 300.0,
+            //   ),
+            // ),
             Container(
                 child: Form(
                     key: _formKey,
