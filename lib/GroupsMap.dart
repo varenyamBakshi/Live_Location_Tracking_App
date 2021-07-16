@@ -32,6 +32,12 @@ class GroupMap extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: (){
+              Navigator.pushReplacementNamed(context, "/Groups");
+            }
+          ),
           title: Text(_title),
         ),
         body: FireMap(),

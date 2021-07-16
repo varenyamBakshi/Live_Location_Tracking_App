@@ -91,18 +91,23 @@ class _GroupsState extends State<Groups> {
       appBar: AppBar(
         title: Text("DashBoard"),
         actions: [
-          FlatButton(
-            textColor: Colors.white,
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-            },
-            child: Text(
-              "Sign Out",
-              style: TextStyle(
-                color: Colors.white,
-              ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: RichText(
+              //for sign out and go back to login page
+              text: TextSpan(
+                  text: 'Sign Out',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                  ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      FirebaseAuth.instance.signOut();
+                      //this.checkAuthentication();
+                    }),
             ),
-            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
           ),
         ],
       ),
@@ -110,20 +115,15 @@ class _GroupsState extends State<Groups> {
         backgroundColor: Colors.blue,
         child: Icon(Icons.add),
         onPressed: () {
-          Navigator.pushReplacementNamed(context, "/Search");
+          Navigator.pushNamed(context, "/Search");
         },
       ),
       body: _auth.currentUser!.displayName == null
           ? Container(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              child: Column(
-                children: [
-                  SizedBox(height: 50),
-                  Center(
-                      child: Text(
-                          "Currently You are not in any group, for creating a new group tap the '+' button")),
-                ],
-              ),
+              child: Center(
+                  child: Text(
+                      "Currently You are not in any group, for creating a new group tap the '+' button")),
             )
           : StreamBuilder(
               stream: cr,
