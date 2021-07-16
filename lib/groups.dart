@@ -64,29 +64,8 @@ class _GroupsState extends State<Groups> {
   //
   // }
 
-  // this function is temporary
-  void addSearchQueries() {
-    var fb = FirebaseFirestore.instance.collection('data');
-  }
 
-  void countDocuments() async {
-    QuerySnapshot _myDoc = await FirebaseFirestore.instance.collection('groups').get();
-    List<DocumentSnapshot> _myDocCount = _myDoc.docs;
-    int k = _myDocCount.length;  // Count of Documents in Collection
 
-    bool checker2 = false;
-
-    if( k == 0){
-      print(k);
-      checker2 = true;
-    }else{
-      print(k);
-      checker2 = false;
-    }
-
-    groupChecker = (_auth.currentUser!.displayName == null) || checker2;
-
-  }
 
   @override
   void initState() {
@@ -101,8 +80,6 @@ class _GroupsState extends State<Groups> {
     checkAuthentication();
     getLocation();
 
-
-    countDocuments();
     //addSearchQueries();
     print("function completed");
 
@@ -142,7 +119,7 @@ class _GroupsState extends State<Groups> {
           Navigator.pushNamed(context, "/Search");
         },
       ),
-      body: groupChecker
+      body: _auth.currentUser!.displayName == null
           ? Container(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               child: Center(

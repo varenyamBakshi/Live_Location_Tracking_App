@@ -147,7 +147,7 @@ class _FireMapState extends State<FireMap> {
     });
     // listen to the change in location of current user
     location.onLocationChanged.listen((event) {
-      mapController.animateCamera(
+      mapController.moveCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
             target: LatLng(event.latitude!, event.longitude!),
