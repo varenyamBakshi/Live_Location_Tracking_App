@@ -182,7 +182,7 @@ class _SearchPageState extends State<SearchPage>
       label: Text(
         label,
         style: TextStyle(
-          color: Colors.white,
+          color: Colors.black,
         ),
       ),
       deleteIcon: Icon(
@@ -208,16 +208,27 @@ class _SearchPageState extends State<SearchPage>
 
     return showDialog(context: context, builder: (context){
       return AlertDialog(
+        backgroundColor: Color(0xff121212),
         title: Text("Enter Group Name: ",
-        style: TextStyle(fontWeight: FontWeight.bold),),
+        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white.withOpacity(0.9)),),
         content: TextField(
           controller: _groupNamecontroller,
+          style: TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Color(0xffBB86FC), width: 2.0),
+            ),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white38, width: 2.0),
+            ),
+            hintText: 'Enter your name',
+          ),
         ),
         actions : <Widget>[
           MaterialButton(
               elevation: 5.0,
               child: Text('Create',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blue),),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color:  Color(0xffBB86FC)),),
               onPressed: (){
                 Navigator.of(context).pop();
                 createcollectiongroup();
@@ -252,15 +263,17 @@ class _SearchPageState extends State<SearchPage>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      backgroundColor: Color(0xff121212),
       key: scaffoldKey,
       appBar: new AppBar(
+        backgroundColor: Colors.black,
         leading: _isSearching ? const BackButton() : null,
         title: _isSearching ? _buildSearchField() : _buildTitle(context),
         actions: _buildActions(),
       ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.blue,
-          child: Icon(Icons.check),
+          backgroundColor: Color(0xffBB86FC),
+          child: Icon(Icons.check,color: Colors.black,size: 36,),
           onPressed: () {
             createAlertDialog(context);
           },
@@ -278,7 +291,7 @@ class _SearchPageState extends State<SearchPage>
                 spacing: 6.0,
                 runSpacing: 6.0,
                 children: _selectedusernames
-                    .map((item) => _buildChip(item, Color(0xffff6666)))
+                    .map((item) => _buildChip(item,  Color(0xffBB86FC)))
                     .toList()
                     .cast<Widget>()),
               )
