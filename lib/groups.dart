@@ -127,7 +127,11 @@ class _GroupsState extends State<Groups> {
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               child: Center(
                   child: Text(
-                      "Currently You are not in any group, for creating a new group tap the '+' button")),
+                      "Currently You are not in any group, for creating a new group tap the '+' button",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                  )),
             )
           : StreamBuilder(
               stream: cr,
