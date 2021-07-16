@@ -7,6 +7,7 @@ import 'package:location/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
+import 'dart:math';
 
 late String Grpid;
 late double _userlat;
@@ -50,7 +51,7 @@ class _FireMapState extends State<FireMap> {
   Set<Marker> markers = new Set<Marker>();
 
   // variables for slider widget
-  double _value = 1.0;
+  double _value = 300.0;
   String _label = 'Adjust Radius';
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -59,6 +60,7 @@ class _FireMapState extends State<FireMap> {
   CollectionReference collectionReference =
       FirebaseFirestore.instance.collection('groups');
   BehaviorSubject<double> radius = BehaviorSubject();
+
   late Stream<List<DocumentSnapshot>> stream;
 
   // will store logged in user's current location
@@ -73,6 +75,7 @@ class _FireMapState extends State<FireMap> {
 
     GeoFirePoint center =
         Geoflutterfire().point(latitude: _userlat, longitude: _userlong);
+    radius.add(100.0);
     stream = radius.switchMap((rad) {
       print('rad value : $rad');
       return Geoflutterfire()
@@ -83,19 +86,23 @@ class _FireMapState extends State<FireMap> {
               center: center, radius: rad, field: 'position', strictMode: true);
     });
 
-    //_initializemarkers();
+    // _initializemarkers();
   }
 
+  // _initializemarkers() async{
+  //
+  // }
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.bottomLeft,
       children: [
         GoogleMap(
+          zoomGesturesEnabled: true,
           markers: markers,
           compassEnabled: true,
           initialCameraPosition:
-              CameraPosition(target: LatLng(24.150, -110.32), zoom: 10),
+              CameraPosition(target: LatLng(_userlat, _userlong), zoom: 10),
           onMapCreated: _onMapCreated,
           myLocationEnabled:
               true, // Add little blue dot for device location, requires permission from user
@@ -107,8 +114,8 @@ class _FireMapState extends State<FireMap> {
             min: 1,
             max: 1000,
             divisions: 200,
-            activeColor: Colors.deepPurpleAccent,
-            inactiveColor: Colors.deepPurple.withOpacity(0.5),
+            activeColor: Colors.deepPurple.withOpacity(0.5),
+            inactiveColor: Colors.deepPurpleAccent,
             value: _value,
             label: _label,
             onChanged: (double value) => changed(value),
@@ -138,7 +145,9 @@ class _FireMapState extends State<FireMap> {
         CameraUpdate.newCameraPosition(
           CameraPosition(
             target: LatLng(event.latitude!, event.longitude!),
-            zoom: 16.0,
+            zoom: radius.hasValue
+                ? log(156543.03392 / (radius.value)) / log(2.0)
+                : 10.0,
           ),
         ),
       );
