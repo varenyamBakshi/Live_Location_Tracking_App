@@ -10,6 +10,7 @@ void main() async {
   await Firebase.initializeApp();
   runApp((MaterialApp(
     // initialRoute: ,
+    debugShowCheckedModeBanner: false,
     home: LoginPage(),
     routes: {
       '/Login': (context) => LoginPage(),
