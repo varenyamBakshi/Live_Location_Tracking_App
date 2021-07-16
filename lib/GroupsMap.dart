@@ -74,10 +74,11 @@ class _FireMapState extends State<FireMap> {
     GeoFirePoint center =
         Geoflutterfire().point(latitude: _userlat, longitude: _userlong);
     stream = radius.switchMap((rad) {
+      print('rad value : $rad');
       return Geoflutterfire()
           .collection(
               collectionRef:
-                  collectionReference.doc(Grpid).collection('locations'))
+                  collectionReference.doc(Grpid).collection('Location'))
           .within(
               center: center, radius: rad, field: 'position', strictMode: true);
     });
@@ -121,13 +122,16 @@ class _FireMapState extends State<FireMap> {
     setState(() {
       _value = value;
       _label = '${_value.toInt().toString()} kms';
-      markers.clear();
+      //markers.clear();
       radius.add(value);
     });
   }
 
   void _onMapCreated(GoogleMapController controller) {
     print('onMapCreated called');
+    setState(() {
+      mapController = controller;
+    });
     // listen to the change in location of current user
     location.onLocationChanged.listen((event) {
       mapController.animateCamera(
@@ -142,11 +146,10 @@ class _FireMapState extends State<FireMap> {
           .point(latitude: event.latitude!, longitude: event.longitude!);
       updateDB(myLocation);
     });
-    setState(() {
-      mapController = controller;
-    });
+
     stream.listen((List<DocumentSnapshot> documentList) {
-      markers.clear();
+      //markers.clear();
+
       _updateMarkers(documentList);
     });
   }
@@ -154,9 +157,13 @@ class _FireMapState extends State<FireMap> {
   _updateMarkers(List<DocumentSnapshot> documentList) {
     print('updating markers');
     documentList.forEach((DocumentSnapshot document) {
+      print(document.data());
       final GeoPoint point = document['position']['geopoint'];
-      _addMarker(point.latitude, point.longitude, document['name']);
+      setState(() {
+        _addMarker(point.latitude, point.longitude, document['name']);
+      });
     });
+    print(markers);
   }
 
   _addMarker(double lat, double long, String name) {
