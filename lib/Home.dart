@@ -33,11 +33,11 @@ class _HomePageState extends State<HomePage> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xffBB86FC),
+          backgroundColor: Colors.black,
           title: Text(
             'Home Screen',
             style: TextStyle(
-              color: Color(0xff121212),
+              color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 24,
             ),

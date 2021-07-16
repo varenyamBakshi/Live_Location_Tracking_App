@@ -32,6 +32,7 @@ class GroupMap extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.black,
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: (){

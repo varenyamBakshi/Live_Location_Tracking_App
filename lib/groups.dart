@@ -90,18 +90,23 @@ class _GroupsState extends State<Groups> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("DashBoard"),
+        title: Text("DashBoard",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+          ),
+        ),
+        backgroundColor: Colors.black,
         actions: [
           Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(18),
             child: RichText(
               //for sign out and go back to login page
               text: TextSpan(
                   text: 'Sign Out',
                   style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
+                    color: Colors.white,
+                    fontSize: 16.0,
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
@@ -113,12 +118,13 @@ class _GroupsState extends State<Groups> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
-        child: Icon(Icons.add),
+        backgroundColor:  Color(0xffBB86FC),
+        child: Icon(Icons.add, color: Colors.black, size: 36,),
         onPressed: () {
           Navigator.pushNamed(context, "/Search");
         },
       ),
+      backgroundColor: Color(0xff121212),
       body: _auth.currentUser!.displayName == null
           ? Container(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -145,17 +151,21 @@ class _GroupsState extends State<Groups> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Card(
+                            color: Colors.white10,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 ListTile(
+
                                   title: Text(
                                     document['groupName'],
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 19),
+                                        //fontWeight: FontWeight.bold,
+                                        fontSize: 19,
+                                        color:Colors.white,
+                                    ),
                                   ),
-                                  subtitle: Text(document["users"].join(",  ")),
+                                  subtitle: Text(document["users"].join(",  "), style: TextStyle(color:Color(0xffBB86FC)),),
                                   onTap: () {
                                     Navigator.push(
                                       context,
